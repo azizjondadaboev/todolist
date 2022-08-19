@@ -24,8 +24,9 @@ const TaskItem = ({ task, handleChangeTask, handleRemoveTask }) => {
       <Wrapper>
         <TaskName>{task.name}</TaskName>
         <TaskDescription>{task.description}</TaskDescription>
-        <TaskStatus>{task.status}</TaskStatus>
-        {/* <div>({task.id})</div> */}
+        <TaskStatus className={task.status}>
+          <span>{task.status === STATUS_DONE ? 'Выполнено' : 'Не выполнено'}</span>
+        </TaskStatus>
         <TaskActions>
           <Button title="Сменить статус" onClick={onChangeStatus} size="sm" textTransform="none" />
           <Button

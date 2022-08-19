@@ -13,3 +13,8 @@ export const Filters = styled.div`
   align-items: center;
   gap: 15px;
 `;
+
+export const StatusFilterBlock = styled.div`
+  display: flex;
+  gap: 10px;
+`;

@@ -8,12 +8,14 @@ export const StyledButton = styled.button`
   font-weight: 600;
   color: ${props => props.color};
   width: ${props => (props.fullWidth ? '100%' : 'auto')};
-  border-radius: 4px;
+  border-radius: ${props => props.borderRadius}px;
   position: relative;
   line-height: 18px;
   text-transform: ${props => props.textTransform};
   background-color: ${props => props.backgroundColor};
   border: 1px solid ${props => props.borderColor};
+  white-space: nowrap;
+  min-width: auto;
 
   &:hover {
     cursor: pointer;

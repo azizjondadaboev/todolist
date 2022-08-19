@@ -11,6 +11,7 @@ const Button = ({
   borderColor = '#0085ff',
   color = '#fff',
   textTransform = 'uppercase',
+  borderRadius = 4,
 
   loading = false,
   loadingColor = '#fff',
@@ -33,6 +34,7 @@ const Button = ({
       fullWidth={fullWidth ? 1 : 0}
       className={size}
       textTransform={textTransform}
+      borderRadius={borderRadius}
     >
       {title}
       {loading && <Loading />}

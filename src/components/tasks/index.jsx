@@ -60,7 +60,13 @@ const Tasks = () => {
 
   return (
     <Wrapper>
-      <TasksHeader handleAddTask={handleAddTask} />
+      <TasksHeader
+        handleAddTask={handleAddTask}
+        searchText={searchText}
+        setSearchText={setSearchText}
+        filterStatus={filterStatus}
+        setFilterStatus={setFilterStatus}
+      />
       {loading ? (
         <LoadingBlock>
           <LoadingCircle size={30} />
@@ -68,7 +74,13 @@ const Tasks = () => {
       ) : null}
       {!loading && !tasks.length ? <EmptyListBlock>У Вас нет созданных задач!</EmptyListBlock> : null}
       {!loading && tasks.length ? (
-        <TasksList tasks={tasks} handleChangeTask={handleChangeTask} handleRemoveTask={handleRemoveTask} />
+        <TasksList
+          tasks={tasks}
+          handleChangeTask={handleChangeTask}
+          handleRemoveTask={handleRemoveTask}
+          searchText={searchText}
+          filterStatus={filterStatus}
+        />
       ) : null}
     </Wrapper>
   );

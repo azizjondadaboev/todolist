@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import { Container } from '../ui';
 import { InnerBlock, LogoLink, Wrapper } from './components';
 
@@ -13,4 +15,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default memo(Header);

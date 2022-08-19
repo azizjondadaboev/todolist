@@ -19,15 +19,33 @@ export const TaskName = styled.div`
 `;
 
 export const TaskDescription = styled.div`
-  width: 35%;
+  width: 30%;
 `;
 
 export const TaskStatus = styled.div`
+  display: flex;
+  justify-content: center;
   width: 10%;
+
+  & > span {
+    color: #fff;
+    font-size: 14px;
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+
+  &.done > span {
+    background-color: #39b980;
+  }
+
+  &.not_done > span {
+    background-color: #d92626;
+  }
 `;
 
 export const TaskActions = styled.div`
   display: flex;
+  justify-content: flex-end;
   gap: 10px;
-  width: 26%;
+  width: 30%;
 `;

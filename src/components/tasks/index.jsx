@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { nanoid } from 'nanoid';
 
 import { STATUS_ALL } from '../../utils/constants';
-import { getItemFromLocalStorage } from '../../utils/storage';
+import { getItemFromLocalStorage, setItemToLocalStorage } from '../../utils/storage';
 import LoadingCircle from '../ui/loadingCircle';
 
 import { EmptyListBlock, LoadingBlock, Wrapper } from './components';
@@ -10,7 +10,7 @@ import TasksHeader from './tasksHeader';
 import TasksList from './tasksList';
 
 const Tasks = () => {
-  const [tasks, setTasks] = useState(null);
+  const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filterStatus, setFilterStatus] = useState(STATUS_ALL);
   const [searchText, setSearchText] = useState('');
@@ -19,23 +19,44 @@ const Tasks = () => {
     getTasksFromLocalStorage();
   }, []);
 
+  useEffect(() => {
+    if (!loading) {
+      setItemToLocalStorage('tasks', tasks);
+    }
+  }, [tasks, loading]);
+
   const getTasksFromLocalStorage = () => {
     const tasksFromStorage = getItemFromLocalStorage('tasks');
 
     if (tasksFromStorage) {
       setTasks(tasksFromStorage);
+    } else {
+      setTasks([]);
     }
 
     setLoading(false);
   };
 
-  const handleAddTask = (values) => {
-    setTasks((prev) => prev.push({ ...values, id: nanoid() }));
+  const handleAddTask = useCallback(values => {
+    setTasks(prev => [...prev, { ...values, id: nanoid() }]);
+  }, []);
+
+  const handleRemoveTask = id => {
+    const filteredTasks = tasks.filter(task => task.id !== id);
+    setTasks(filteredTasks);
   };
 
-  const handleRemoveTask = (id) => {};
+  const handleChangeTask = values => {
+    const changedTasks = tasks.map(task => {
+      if (task.id === values.id) {
+        return values;
+      }
 
-  const handleChangeTask = (id, values) => {};
+      return task;
+    });
+
+    setTasks(changedTasks);
+  };
 
   return (
     <Wrapper>
@@ -45,10 +66,10 @@ const Tasks = () => {
           <LoadingCircle size={30} />
         </LoadingBlock>
       ) : null}
-      {!loading && !tasks ? (
-        <EmptyListBlock>У Вас нет созданных задач!</EmptyListBlock>
+      {!loading && !tasks.length ? <EmptyListBlock>У Вас нет созданных задач!</EmptyListBlock> : null}
+      {!loading && tasks.length ? (
+        <TasksList tasks={tasks} handleChangeTask={handleChangeTask} handleRemoveTask={handleRemoveTask} />
       ) : null}
-      {!loading && tasks ? <TasksList /> : null}
     </Wrapper>
   );
 };

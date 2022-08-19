@@ -1,6 +1,9 @@
 import { useEffect } from 'react';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
+
+import { STATUS_NOT_DONE } from '../../../utils/constants';
+
 import { Wrapper } from './components';
 import { Button, Input } from '../../ui';
 
@@ -8,12 +11,10 @@ const defaultInitialValues = {
   id: null,
   name: '',
   description: '',
+  status: STATUS_NOT_DONE,
 };
 
-const TaskForm = ({
-  initialValues = defaultInitialValues,
-  handleSubmitForm,
-}) => {
+const TaskForm = ({ initialValues = defaultInitialValues, handleSubmitForm }) => {
   useEffect(() => {
     document.addEventListener('keypress', handleKeyPress);
 
@@ -23,22 +24,18 @@ const TaskForm = ({
   }, []);
 
   const validationSchema = Yup.object().shape({
-    name: Yup.string()
-      .trim()
-      .min(4, 'Минимум 4 символа')
-      .required('Обязательное поле'),
+    name: Yup.string().trim().min(4, 'Минимум 4 символа').required('Обязательное поле'),
     description: Yup.string().trim().min(4, 'Минимум 4 символа').nullable(),
   });
 
-  const { values, errors, touched, handleChange, handleBlur, handleSubmit } =
-    useFormik({
-      initialValues,
-      validationSchema,
-      onSubmit: handleSubmitForm,
-      validateOnBlur: true,
-    });
+  const { values, errors, touched, handleChange, handleBlur, handleSubmit } = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit: handleSubmitForm,
+    validateOnBlur: true,
+  });
 
-  const handleKeyPress = (e) => {
+  const handleKeyPress = e => {
     if (e.key === 'Enter' || e.keyCode === 13) {
       handleSubmit();
     }
@@ -64,12 +61,7 @@ const TaskForm = ({
         onBlur={handleBlur('description')}
         label="Описание задачи"
       />
-      <Button
-        title="Сохранить"
-        onClick={handleSubmit}
-        backgroundColor="#39b980"
-        borderColor="#39b980"
-      />
+      <Button title="Сохранить" onClick={handleSubmit} backgroundColor="#39b980" borderColor="#39b980" />
     </Wrapper>
   );
 };
